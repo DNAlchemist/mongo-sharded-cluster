@@ -3,8 +3,8 @@ services:
 
   mongors1n1:
     container_name: mongors1n1
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    image: mongo:4.0.3
+    command: mongod --noprealloc --replSet mongors1 --dbpath /data/db --oplogSize 16 --noauth
     environment:
       TERM: xterm
     volumes:
@@ -12,8 +12,8 @@ services:
 
   mongors1n2:
     container_name: mongors1n2
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    image: mongo:4.0.3
+    command: mongod --noprealloc --replSet mongors1 --dbpath /data/db --oplogSize 16 --noauth
     environment:
       TERM: xterm
     volumes:
@@ -21,8 +21,8 @@ services:
 
   mongors1n3:
     container_name: mongors1n3
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    image: mongo:4.0.3
+    command: mongod --noprealloc --replSet mongors1 --dbpath /data/db --oplogSize 16 --noauth
     environment:
       TERM: xterm
     volumes:
@@ -30,8 +30,8 @@ services:
 
   mongors2n1:
     container_name: mongors2n1
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    image: mongo:4.0.3
+    command: mongod --noprealloc --replSet mongors2 --dbpath /data/db --oplogSize 16 --noauth
     environment:
       TERM: xterm
     volumes:
@@ -39,8 +39,8 @@ services:
 
   mongors2n2:
     container_name: mongors2n2
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    image: mongo:4.0.3
+    command: mongod --noprealloc --replSet mongors2 --dbpath /data/db --oplogSize 16 --noauth
     environment:
       TERM: xterm
     volumes:
@@ -48,8 +48,8 @@ services:
 
   mongors2n3:
     container_name: mongors2n3
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    image: mongo:4.0.3
+    command: mongod --noprealloc --replSet mongors2 --dbpath /data/db --oplogSize 16 --noauth
     environment:
       TERM: xterm
     volumes:
@@ -57,8 +57,8 @@ services:
 
   mongocfg1:
     container_name: mongocfg1
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    image: mongo:4.0.3
+    command: mongod --noprealloc --dbpath /data/db --configsvr --noauth --port 27017 --replSet cfg
     environment:
       TERM: xterm
     expose:
@@ -68,8 +68,8 @@ services:
 
   mongocfg2:
     container_name: mongocfg2
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    image: mongo:4.0.3
+    command: mongod --noprealloc --dbpath /data/db --configsvr --noauth --port 27017 --replSet cfg
     environment:
       TERM: xterm
     expose:
@@ -79,8 +79,8 @@ services:
 
   mongocfg3:
     container_name: mongocfg3
-    image: mongo:3.0.14
-    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    image: mongo:4.0.3
+    command: mongod --noprealloc --dbpath /data/db --configsvr --noauth --port 27017 --replSet cfg
     environment:
       TERM: xterm
     expose:
@@ -90,22 +90,22 @@ services:
 
   mongos1:
     container_name: mongos1
-    image: mongo:3.0.14
+    image: mongo:4.0.3
     depends_on:
       - mongocfg1
       - mongocfg2
       - mongocfg3
-    command: mongos --configdb mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017
+    command: mongos --configdb cfg/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017
     ports:
       - 27017:27017
 
   mongos2:
     container_name: mongos2
-    image: mongo:3.0.14
+    image: mongo:4.0.3
     depends_on:
       - mongocfg1
       - mongocfg2
       - mongocfg3
-    command: mongos --configdb mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017
+    command: mongos --configdb cfg/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017
     ports:
       - 27018:27017
